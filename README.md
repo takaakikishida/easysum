@@ -45,11 +45,28 @@ gapminder
 # ℹ Use `print(n = ...)` to see more rows
 ```
 
+### 1. One Variable: `tab()`
+
 We can easily tabulate a single variable using the `tab()` function, a pipe-able tabulate function based on [`janitor`](https://sfirke.github.io/janitor/index.html).
 
 ``` r
-# Tabulate the continent variable
 gapminder %>% tab(continent)
+# continent    n percent
+#    Africa  624  36.62%
+#  Americas  300  17.61%
+#      Asia  396  23.24%
+#    Europe  360  21.13%
+#   Oceania   24   1.41%
+#     Total 1704 100.00%
+```
+
+This is equivalent as:
+
+``` r
+gapminder %>%
+  janitor::tabyl(continent) %>%
+  janitor::adorn_totals("row") %>%
+  janitor::adorn_pct_formatting(digits = 2)
 # continent    n percent
 #    Africa  624  36.62%
 #  Americas  300  17.61%
