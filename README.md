@@ -79,6 +79,18 @@ gapminder %>%
 And similar to: 
 
 ```r
+gapminder %>% rstatix::freq_table(continent)
+# A tibble: 5 × 3
+#   continent     n  prop
+#   <fct>     <int> <dbl>
+# 1 Africa      624  36.6
+# 2 Americas    300  17.6
+# 3 Asia        396  23.2
+# 4 Europe      360  21.1
+# 5 Oceania      24   1.4
+```
+
+```r
 gapminder %>% dplyr::count(continent)
 # A tibble: 5 × 2
 #   continent     n
@@ -88,4 +100,34 @@ gapminder %>% dplyr::count(continent)
 # 3 Asia        396
 # 4 Europe      360
 # 5 Oceania      24
+```
+
+**Note:** When there are `NA`s in the data
+
+```r
+introduce_na <- function(data, column, na_percentage, seed = NULL) {
+  column_sym <- sym(column)
+  column_type <- data %>%
+    dplyr::pull(!!column_sym) %>%
+    class()
+
+  data %>%
+    dplyr::mutate(!!column_sym := if_else(
+      runif(n()) < na_percentage,
+      if (column_type %in% c("numeric", "double")) NA_real_ else if (column_type == "integer") NA_integer_ else if (column_type == "character") NA_character_ else NA,
+      !!column_sym
+    ))
+}
+
+gapminder %>%
+  introduce_na("continent", 0.2, seed = 123) %>%
+  tab(continent)
+# continent    n percent valid_percent
+#    Africa  501  29.40%        37.42%
+#  Americas  238  13.97%        17.77%
+#      Asia  301  17.66%        22.48%
+#    Europe  284  16.67%        21.21%
+#   Oceania   15   0.88%         1.12%
+#      <NA>  365  21.42%             -
+#     Total 1704 100.00%       100.00%
 ```
