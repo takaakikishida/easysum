@@ -75,3 +75,17 @@ gapminder %>%
 #   Oceania   24   1.41%
 #     Total 1704 100.00%
 ```
+
+And similar to: 
+
+```r
+gapminder %>% dplyr::count(continent)
+# A tibble: 5 × 2
+#   continent     n
+#   <fct>     <int>
+# 1 Africa      624
+# 2 Americas    300
+# 3 Asia        396
+# 4 Europe      360
+# 5 Oceania      24
+```
