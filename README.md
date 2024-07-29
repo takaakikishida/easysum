@@ -6,6 +6,8 @@
 
 The goal of easysum is to provide easy-to-use wrapper functions for commonly used summary statistics, simplifying the process by reducing the amount of code needed to perform these operations.
 
+Any feedback, comments, or suggestions to improve `easysum` are highly appreciated. Please feel free to open an issue or submit a pull request on this [GitHub repository](https://github.com/takakishi/easysum).
+
 
 ## Installation
 
@@ -122,7 +124,7 @@ gapminder %>% dplyr::count(continent)
 # 5 Oceania      24
 ```
 
-**Note:** When there are `NA`s in the data
+**Note:** When there are `NA`s in the data:
 
 ```r
 gapminder_na %>% tab(continent)
@@ -135,3 +137,32 @@ gapminder_na %>% tab(continent)
 #      <NA>   16   0.94%             -
 #     Total 1704 100.00%       100.00%
 ```
+
+
+## Example 2: (Basic) Summary Statistics `sumr()`
+
+A summary statisitcs function based on [`skimr`](https://github.com/ropensci/skimr).
+
+Summarize all numeric variables in a data frame: 
+
+```r
+gapminder_na %>% sumr()
+# A tibble: 4 × 7
+#   Variable  CompRate       Mean          SD     Min          Max Hist 
+#   <chr>        <dbl>      <dbl>       <dbl>   <dbl>        <dbl> <chr>
+# 1 year         1         1980.         17.3  1952         2007   ▇▅▅▅▇
+# 2 lifeExp      0.798       59.3        13.1    23.6         82.6 ▁▆▇▇▇
+# 3 pop          1     29601212.  106157897.  60011   1318683096   ▇▁▁▁▁
+# 4 gdpPercap    0.903     7223.       9951.    241.      113523.  ▇▁▁▁▁
+```
+
+Summarize specific numeric variables in a data frame:
+
+```r
+gapminder_na %>% sumr(gdpPercap, lifeExp)
+#   Variable  CompRate   Mean     SD   Min      Max Hist 
+#   <chr>        <dbl>  <dbl>  <dbl> <dbl>    <dbl> <chr>
+# 1 gdpPercap    0.903 7223.  9951.  241.  113523.  ▇▁▁▁▁
+# 2 lifeExp      0.798   59.3   13.1  23.6     82.6 ▁▆▇▇▇
+```
+
