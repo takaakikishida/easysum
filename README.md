@@ -6,6 +6,13 @@
 
 The goal of easysum is to provide easy-to-use wrapper functions for commonly used summary statistics, simplifying the process by reducing the amount of code needed to perform these operations.
 
+- `tab()`: Create a one-way tabulation (frequency table) with totals and percentages. 
+- `sumr()`: Summarize numeric variables with basic statistics. 
+- `sumr_full()`: Summarize numeric variables with a comprehensive set of statistics.
+- `sumr_group_by()`: Summarize numeric variables by a grouping variable.
+- `sumr_na()`: Summarize missing values and unique factor levels.
+
+
 Any feedback, comments, or suggestions to improve `easysum` are highly appreciated. Please feel free to open an issue or submit a pull request on this [GitHub repository](https://github.com/takakishi/easysum).
 
 
