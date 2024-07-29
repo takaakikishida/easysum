@@ -45,7 +45,7 @@ sumr <- function(data, ...) {
     dplyr::select(Variable, CompRate, Mean, SD, Min, Max, Hist)
 }
 
-# グローバル変数として宣言
+# Global variables for skimr
 utils::globalVariables(c("skim_type", "skim_variable", "complete_rate", "numeric.mean",
                          "numeric.sd", "numeric.p0", "numeric.p100", "numeric.hist",
                          "Variable", "CompRate", "Mean", "SD", "Min", "Max", "Hist"))
