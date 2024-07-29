@@ -18,9 +18,9 @@ library(easysum)
 ```
 
 
-## Example
+## Example: Setup
 
-In this example, we use the [`gapminder`](https://cran.r-project.org/web/packages/gapminder/readme/README.html) dataset for demonstration, including missing in some variables to check the behavior of the functions.
+In the following examples, we use the [`gapminder`](https://cran.r-project.org/web/packages/gapminder/readme/README.html) dataset for demonstration, including missing in some variables to check the behavior of the functions.
 
 ```r
 library(dplyr)
@@ -64,7 +64,8 @@ gapminder_na <- gapminder %>%
   introduce_na("gdpPercap", 0.1, seed = 123) 
 ```
 
-### 1. One Variable: `tab()`
+
+## Example 1: One-way Tabulation `tab()`
 
 We can easily tabulate a single variable using the `tab()` function, a pipe-able tabulate function based on [`janitor`](https://sfirke.github.io/janitor/index.html).
 
