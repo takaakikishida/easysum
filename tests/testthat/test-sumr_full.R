@@ -1,0 +1,27 @@
+library(testthat)
+library(easysum)
+library(dplyr)
+library(skimr)
+library(tibble)
+library(gapminder)
+
+test_that("sumr_full works for all numeric variables", {
+  result <- sumr_full(gapminder)
+  expect_true("Variable" %in% colnames(result))
+  expect_true("Missing" %in% colnames(result))
+  expect_true("CompRate" %in% colnames(result))
+  expect_true("Mean" %in% colnames(result))
+  expect_true("SD" %in% colnames(result))
+  expect_true("Min" %in% colnames(result))
+  expect_true("Q25" %in% colnames(result))
+  expect_true("Median" %in% colnames(result))
+  expect_true("Q75" %in% colnames(result))
+  expect_true("Max" %in% colnames(result))
+  expect_true("Hist" %in% colnames(result))
+})
+
+test_that("sumr_full works for specific variables", {
+  result <- sumr_full(gapminder, lifeExp, gdpPercap)
+  expect_equal(nrow(result), 2)
+  expect_true(all(result$Variable %in% c("lifeExp", "gdpPercap")))
+})
