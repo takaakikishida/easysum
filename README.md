@@ -20,7 +20,7 @@ library(easysum)
 
 ## Example
 
-In this example, we use the [`gapminder`](https://cran.r-project.org/web/packages/gapminder/readme/README.html) dataset for demonstration.
+In this example, we use the [`gapminder`](https://cran.r-project.org/web/packages/gapminder/readme/README.html) dataset for demonstration, including missing in some variables to check the behavior of the functions.
 
 ```r
 library(dplyr)
@@ -43,6 +43,25 @@ gapminder
 # 10 Afghanistan Asia       1997    41.8 22227415      635.
 # ℹ 1,694 more rows
 # ℹ Use `print(n = ...)` to see more rows
+
+introduce_na <- function(data, column, na_percentage, seed = NULL) {
+  column_sym <- sym(column)
+  column_type <- data %>%
+    dplyr::pull(!!column_sym) %>%
+    class()
+
+  data %>%
+    dplyr::mutate(!!column_sym := dplyr::if_else(
+      runif(n()) < na_percentage,
+      if (column_type %in% c("numeric", "double")) NA_real_ else if (column_type == "integer") NA_integer_ else if (column_type == "character") NA_character_ else NA,
+      !!column_sym
+    ))
+}
+
+gapminder_na <- gapminder %>%
+  introduce_na("continent", 0.01, seed = 123) %>%
+  introduce_na("lifeExp", 0.2, seed = 123) %>%
+  introduce_na("gdpPercap", 0.1, seed = 123) 
 ```
 
 ### 1. One Variable: `tab()`
@@ -105,29 +124,13 @@ gapminder %>% dplyr::count(continent)
 **Note:** When there are `NA`s in the data
 
 ```r
-introduce_na <- function(data, column, na_percentage, seed = NULL) {
-  column_sym <- sym(column)
-  column_type <- data %>%
-    dplyr::pull(!!column_sym) %>%
-    class()
-
-  data %>%
-    dplyr::mutate(!!column_sym := if_else(
-      runif(n()) < na_percentage,
-      if (column_type %in% c("numeric", "double")) NA_real_ else if (column_type == "integer") NA_integer_ else if (column_type == "character") NA_character_ else NA,
-      !!column_sym
-    ))
-}
-
-gapminder %>%
-  introduce_na("continent", 0.2, seed = 123) %>%
-  tab(continent)
+gapminder_na %>% tab(continent)
 # continent    n percent valid_percent
-#    Africa  501  29.40%        37.42%
-#  Americas  238  13.97%        17.77%
-#      Asia  301  17.66%        22.48%
-#    Europe  284  16.67%        21.21%
-#   Oceania   15   0.88%         1.12%
-#      <NA>  365  21.42%             -
+#    Africa  618  36.27%        36.61%
+#  Americas  299  17.55%        17.71%
+#      Asia  389  22.83%        23.05%
+#    Europe  358  21.01%        21.21%
+#   Oceania   24   1.41%         1.42%
+#      <NA>   16   0.94%             -
 #     Total 1704 100.00%       100.00%
 ```
