@@ -3,6 +3,7 @@
 export(sumr)
 export(sumr_full)
 export(sumr_group_by)
+export(sumr_na)
 export(tab)
 import(gapminder)
 importFrom(dplyr,"%>%")
