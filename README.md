@@ -154,7 +154,7 @@ Summarize all numeric variables in a data frame:
 
 ```r
 gapminder_na %>% sumr()
-# A tibble: 4 × 7
+#   A tibble: 4 × 7
 #   Variable  CompRate       Mean          SD     Min          Max Hist 
 #   <chr>        <dbl>      <dbl>       <dbl>   <dbl>        <dbl> <chr>
 # 1 year         1         1980.         17.3  1952         2007   ▇▅▅▅▇
@@ -167,9 +167,90 @@ Summarize specific numeric variables in a data frame:
 
 ```r
 gapminder_na %>% sumr(gdpPercap, lifeExp)
+#   A tibble: 2 × 7
 #   Variable  CompRate   Mean     SD   Min      Max Hist 
 #   <chr>        <dbl>  <dbl>  <dbl> <dbl>    <dbl> <chr>
 # 1 gdpPercap    0.903 7223.  9951.  241.  113523.  ▇▁▁▁▁
 # 2 lifeExp      0.798   59.3   13.1  23.6     82.6 ▁▆▇▇▇
 ```
 
+
+## Example 3: (Full) Summary Statistics `sumr_full()`
+```r
+#   A tibble: 4 × 11
+#   Variable  Missing CompRate       Mean          SD     Min       Q25  Median    Q75    Max Hist 
+#   <chr>       <int>    <dbl>      <dbl>       <dbl>   <dbl>     <dbl>   <dbl>  <dbl>  <dbl> <chr>
+# 1 year            0    1         1980.         17.3  1952      1966.   1.98e3 1.99e3 2.01e3 ▇▅▅▅▇
+# 2 lifeExp       322    0.811       59.4        13.0    23.6      48.1  6.03e1 7.09e1 8.26e1 ▁▆▇▇▇
+# 3 pop             0    1     29601212.  106157897.  60011   2793664    7.02e6 1.96e7 1.32e9 ▇▁▁▁▁
+# 4 gdpPercap     174    0.898     7309.      10096.    241.     1182.   3.53e3 9.40e3 1.14e5 ▇▁▁▁▁
+```
+
+
+## Example 4: Summary Statistics by Group `sumr_group_by()`
+```r
+gapminder %>% sumr_group_by(by = continent)
+#   A tibble: 20 × 8
+#    Variable  continent CompRate       Mean           SD       Min          Max Hist 
+#    <chr>     <fct>        <dbl>      <dbl>        <dbl>     <dbl>        <dbl> <chr>
+#  1 year      Africa           1     1980.         17.3     1952         2007   ▇▅▅▅▇
+#  2 year      Americas         1     1980.         17.3     1952         2007   ▇▅▅▅▇
+#  3 year      Asia             1     1980.         17.3     1952         2007   ▇▅▅▅▇
+#  4 year      Europe           1     1980.         17.3     1952         2007   ▇▅▅▅▇
+#  5 year      Oceania          1     1980.         17.6     1952         2007   ▇▅▅▅▇
+#  6 lifeExp   Africa           1       48.9         9.15      23.6         76.4 ▁▆▇▃▁
+#  7 lifeExp   Americas         1       64.7         9.35      37.6         80.7 ▁▂▅▇▅
+#  8 lifeExp   Asia             1       60.1        11.9       28.8         82.6 ▁▅▆▇▃
+#  9 lifeExp   Europe           1       71.9         5.43      43.6         81.8 ▁▁▁▇▅
+# 10 lifeExp   Oceania          1       74.3         3.80      69.1         81.2 ▇▅▃▂▅
+# 11 pop       Africa           1  9916003.   15490923.     60011    135031164   ▇▁▁▁▁
+# 12 pop       Americas         1 24504795.   50979430.    662850    301139947   ▇▁▁▁▁
+# 13 pop       Asia             1 77038722.  206885205.    120447   1318683096   ▇▁▁▁▁
+# 14 pop       Europe           1 17169765.   20519438.    147962     82400996   ▇▁▁▁▁
+# 15 pop       Oceania          1  8874672.    6506342.   1994794     20434176   ▇▁▂▂▂
+# 16 gdpPercap Africa           1     2194.       2828.       241.       21951.  ▇▁▁▁▁
+# 17 gdpPercap Americas         1     7136.       6397.      1202.       42952.  ▇▁▁▁▁
+# 18 gdpPercap Asia             1     7902.      14045.       331       113523.  ▇▁▁▁▁
+# 19 gdpPercap Europe           1    14469.       9355.       974.       49357.  ▇▆▃▁▁
+# 20 gdpPercap Oceania          1    18622.       6359.     10040.       34435.  ▇▇▃▂▂
+```
+
+```r
+gapminder %>%
+  sumr_group_by(lifeExp, by = continent) %>%
+  dplyr::arrange(desc(Mean))
+#   A tibble: 5 × 8
+#   Variable continent CompRate  Mean    SD   Min   Max Hist 
+#   <chr>    <fct>        <dbl> <dbl> <dbl> <dbl> <dbl> <chr>
+# 1 lifeExp  Oceania          1  74.3  3.80  69.1  81.2 ▇▅▃▂▅
+# 2 lifeExp  Europe           1  71.9  5.43  43.6  81.8 ▁▁▁▇▅
+# 3 lifeExp  Americas         1  64.7  9.35  37.6  80.7 ▁▂▅▇▅
+# 4 lifeExp  Asia             1  60.1 11.9   28.8  82.6 ▁▅▆▇▃
+# 5 lifeExp  Africa           1  48.9  9.15  23.6  76.4 ▁▆▇▃▁
+```
+
+
+## Example 5: Summary of Missing Values and Unique Factors `sumr_na()`
+
+```r
+gapminder_na %>% sumr_na()
+#   A tibble: 6 × 4
+#   Variable  Missing CompRate Factor_N_Unique
+#   <chr>       <int>    <dbl>           <int>
+# 1 country         0    1                 142
+# 2 continent      16    0.991               5
+# 3 year            0    1                  NA
+# 4 lifeExp       322    0.811              NA
+# 5 pop             0    1                  NA
+# 6 gdpPercap     174    0.898              NA
+```
+
+```r
+gapminder_na %>% sumr_na(country, lifeExp, gdpPercap)
+#   A tibble: 3 × 4
+#   Variable  Missing CompRate Factor_N_Unique
+#   <chr>       <int>    <dbl>           <int>
+# 1 country         0    1                 142
+# 2 lifeExp       322    0.811              NA
+# 3 gdpPercap     174    0.898              NA
+```
