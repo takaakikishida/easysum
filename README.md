@@ -13,12 +13,12 @@ The goal of easysum is to provide easy-to-use wrapper functions for commonly use
 - `sumr_na()`: Summarize missing values and unique factor levels.
 
 
-Any feedback, comments, or suggestions to improve `easysum` are highly appreciated. Please feel free to open an issue or submit a pull request on this [GitHub repository](https://github.com/takakishi/easysum).
+**Any feedback, comments, or suggestions to improve `{easysum}` are highly appreciated**. Please feel free to open an issue or submit a pull request on this [GitHub repository](https://github.com/takakishi/easysum).
 
 
 ## Installation
 
-You can install the development version of easysum from GitHub with:
+You can install the development version of `{easysum}` from GitHub with:
 
 ``` r
 # install.packages("devtools")
@@ -29,7 +29,7 @@ library(easysum)
 
 ## Example: Setup
 
-In the following examples, we use the [`gapminder`](https://cran.r-project.org/web/packages/gapminder/readme/README.html) dataset for demonstration, including missing in some variables to check the behavior of the functions.
+In the following examples, we use the [`{gapminder}`](https://cran.r-project.org/web/packages/gapminder/readme/README.html) dataset for demonstration, including missing in some variables to check the behavior of the functions.
 
 ```r
 library(dplyr)
@@ -76,7 +76,7 @@ gapminder_na <- gapminder %>%
 
 ## Example 1: One-way Tabulation `tab()`
 
-We can easily tabulate a single variable using the `tab()` function, a pipe-able tabulate function based on [`janitor`](https://sfirke.github.io/janitor/index.html).
+We can easily tabulate a single variable using the `tab()` function, a pipe-able tabulate function based on [`{janitor}`](https://sfirke.github.io/janitor/index.html).
 
 ``` r
 gapminder %>% tab(continent)
@@ -89,47 +89,50 @@ gapminder %>% tab(continent)
 #     Total 1704 100.00%
 ```
 
-This is equivalent as:
+<details>
+  <summary> (Almost) equivalent code using <code>{janitor}</code>, <code>{rstatix}</code>code>, and <code>{dplyr}</code>code> (click to expand) </summary>
 
-``` r
-gapminder %>%
-  janitor::tabyl(continent) %>%
-  janitor::adorn_totals("row") %>%
-  janitor::adorn_pct_formatting(digits = 2)
-# continent    n percent
-#    Africa  624  36.62%
-#  Americas  300  17.61%
-#      Asia  396  23.24%
-#    Europe  360  21.13%
-#   Oceania   24   1.41%
-#     Total 1704 100.00%
-```
+  ``` r
+  gapminder %>%
+    janitor::tabyl(continent) %>%
+    janitor::adorn_totals("row") %>%
+    janitor::adorn_pct_formatting(digits = 2)
+  # continent    n percent
+  #    Africa  624  36.62%
+  #  Americas  300  17.61%
+  #      Asia  396  23.24%
+  #    Europe  360  21.13%
+  #   Oceania   24   1.41%
+  #     Total 1704 100.00%
+  ```
 
-And similar to: 
+  And similar to: 
 
-```r
-gapminder %>% rstatix::freq_table(continent)
-# A tibble: 5 × 3
-#   continent     n  prop
-#   <fct>     <int> <dbl>
-# 1 Africa      624  36.6
-# 2 Americas    300  17.6
-# 3 Asia        396  23.2
-# 4 Europe      360  21.1
-# 5 Oceania      24   1.4
-```
+  ```r
+  gapminder %>% rstatix::freq_table(continent)
+  # A tibble: 5 × 3
+  #   continent     n  prop
+  #   <fct>     <int> <dbl>
+  # 1 Africa      624  36.6
+  # 2 Americas    300  17.6
+  # 3 Asia        396  23.2
+  # 4 Europe      360  21.1
+  # 5 Oceania      24   1.4
+  ```
 
-```r
-gapminder %>% dplyr::count(continent)
-# A tibble: 5 × 2
-#   continent     n
-#   <fct>     <int>
-# 1 Africa      624
-# 2 Americas    300
-# 3 Asia        396
-# 4 Europe      360
-# 5 Oceania      24
-```
+  ```r
+  gapminder %>% dplyr::count(continent)
+  # A tibble: 5 × 2
+  #   continent     n
+  #   <fct>     <int>
+  # 1 Africa      624
+  # 2 Americas    300
+  # 3 Asia        396
+  # 4 Europe      360
+  # 5 Oceania      24
+  ```
+</details>
+
 
 **Note:** When there are `NA`s in the data:
 
@@ -148,7 +151,7 @@ gapminder_na %>% tab(continent)
 
 ## Example 2: (Basic) Summary Statistics `sumr()`
 
-A summary statisitcs function based on [`skimr`](https://github.com/ropensci/skimr).
+A summary statisitcs function based on [`{skimr}`](https://github.com/ropensci/skimr).
 
 Summarize all numeric variables in a data frame: 
 
