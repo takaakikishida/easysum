@@ -90,7 +90,7 @@ gapminder %>% tab(continent)
 ```
 
 <details>
-  <summary> (Almost) equivalent code using <code>{janitor}</code>, <code>{rstatix}</code>code>, and <code>{dplyr}</code>code> (click to expand) </summary>
+  <summary> (Almost) equivalent code using <code>{janitor}</code>, <code>{rstatix}</code>, and <code>{dplyr}</code> (click to expand). </summary>
 
   ``` r
   gapminder %>%
