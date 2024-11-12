@@ -22,7 +22,7 @@ You can install the development version of `{easysum}` from GitHub with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("takakishi/easysum")
+devtools::install_github("takaakikishida/easysum")
 library(easysum)
 ```
 
